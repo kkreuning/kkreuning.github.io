@@ -1,0 +1,788 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.3 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Guardrail with http4s tutorial - Blog</title>
+<meta name="description" content="This article is an introduction on how to use Twilio’sGuardrail to safely generate and maintain ahttp4s REST API server. I wanted to write this article asa reference for my future self and others who are interested in this technology.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Blog">
+<meta property="og:title" content="Guardrail with http4s tutorial">
+<meta property="og:url" content="http://localhost:4000/guardrail-with-http4s-tutorial/">
+
+
+  <meta property="og:description" content="This article is an introduction on how to use Twilio’sGuardrail to safely generate and maintain ahttp4s REST API server. I wanted to write this article asa reference for my future self and others who are interested in this technology.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2019-05-07T00:00:00+02:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/guardrail-with-http4s-tutorial/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Kay Kreuning",
+      "url": "http://localhost:4000",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Blog Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE ]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--posts">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">Blog</a>
+        <ul class="visible-links"></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/bio-photo.jpg" alt="Kay Kreuning" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Kay Kreuning</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+        Scala Developer at Lunatech.
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Amsterdam, The Netherlands</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/kkreuning" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/kkreuning" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <div class="archive">
+    
+      <h1 id="page-title" class="page__title">Guardrail with http4s tutorial</h1>
+    
+    <p>This article is an introduction on how to use Twilio’s
+<a href="https://guardrail.dev">Guardrail</a> to safely generate and maintain a
+<a href="https://http4s.org">http4s</a> REST API server. I wanted to write this article as
+a reference for my future self and others who are interested in this technology.</p>
+
+<h2 id="tldr----i-just-want-the-code">tl;dr -  I just want the code!</h2>
+
+<p>Find the finished project at
+<a href="https://github.com/kkreuning/guardrail-http4s-example">guardrail-http4s-tutorial</a></p>
+
+<h2 id="the-case-for-guardrail">The case for Guardrail</h2>
+
+<p>To quote from Guardrail’s website:</p>
+
+<blockquote>
+  <p>Guardrail is a code generation tool, capable of reading from OpenAPI/Swagger
+specification files and generating Scala source code, primarily targeting the
+akka-http and http4s web frameworks, using circe for JSON encoding/decoding.</p>
+</blockquote>
+
+<p>That’s nice and all, but Swagger is already capable of generating Scala code,
+why does Guardrail exist at all?</p>
+
+<p>In two words <strong>type safety</strong>, as we will see it is impossible to do the wrong
+thing when working with Guardrail’s generated code because the compiler’s
+type checker will prevent us from making mistakes.</p>
+
+<p>More important, when using Guardrail, we are forced to develop API first and our
+OpenAPI/Swagger specification functions as the single source of truth for our
+API’s.</p>
+
+<p>Now, without further ado, let’s build a http4s server using Guardrail</p>
+
+<h2 id="prerequisites-and-setup">Prerequisites and setup</h2>
+
+<p>For this tutorial we will need
+<a href="http://www.scala-sbt.org/1.0/docs/Setup.html">sbt</a>. To save some time we are
+going to use the http4s g8 template, in your terminal do the following:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> sbt new http4s/http4s.g8
+</code></pre></div></div>
+
+<p>I’m going to use the defaults. If you want to have different names, the paths
+and filenames in this tutorial might be different for you. When <code class="highlighter-rouge">sbt</code> is done
+open the newly created directory. Start with deleting the standard routes since
+we are not going to use them. Delete the following files and directories:</p>
+<ul>
+  <li><code class="highlighter-rouge">src/main/scala/com/example/quickstart/HelloWorld.scala</code></li>
+  <li><code class="highlighter-rouge">src/main/scala/com/example/quickstart/Jokes.scala</code></li>
+  <li><code class="highlighter-rouge">src/main/scala/com/example/quickstart/QuickstartRoutes.scala</code></li>
+  <li><code class="highlighter-rouge">src/test</code></li>
+</ul>
+
+<p>In <code class="highlighter-rouge">QuickstartServer.scala</code>, remove the references to files you just
+deleted so that we are left with the following file:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">com.example.quickstart</span>
+
+<span class="k">import</span> <span class="nn">cats.effect.</span><span class="o">{</span><span class="nc">ConcurrentEffect</span><span class="o">,</span> <span class="nc">Effect</span><span class="o">,</span> <span class="nc">ExitCode</span><span class="o">,</span> <span class="nc">IO</span><span class="o">,</span> <span class="nc">IOApp</span><span class="o">,</span> <span class="nc">Timer</span><span class="o">,</span> <span class="nc">ContextShift</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">cats.implicits._</span>
+<span class="k">import</span> <span class="nn">fs2.Stream</span>
+<span class="k">import</span> <span class="nn">org.http4s.client.blaze.BlazeClientBuilder</span>
+<span class="k">import</span> <span class="nn">org.http4s.HttpRoutes</span>
+<span class="k">import</span> <span class="nn">org.http4s.implicits._</span>
+<span class="k">import</span> <span class="nn">org.http4s.server.blaze.BlazeServerBuilder</span>
+<span class="k">import</span> <span class="nn">org.http4s.server.middleware.Logger</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.global</span>
+
+<span class="k">object</span> <span class="nc">QuickstartServer</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="n">stream</span><span class="o">[</span><span class="kt">F</span><span class="o">[</span><span class="k">_</span><span class="o">]</span><span class="kt">:</span> <span class="kt">ConcurrentEffect</span><span class="o">](</span><span class="k">implicit</span> <span class="n">T</span><span class="k">:</span> <span class="kt">Timer</span><span class="o">[</span><span class="kt">F</span><span class="o">],</span> <span class="n">C</span><span class="k">:</span> <span class="kt">ContextShift</span><span class="o">[</span><span class="kt">F</span><span class="o">])</span><span class="k">:</span> <span class="kt">Stream</span><span class="o">[</span><span class="kt">F</span>, <span class="kt">Nothing</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">{</span>
+      <span class="n">client</span> <span class="k">&lt;-</span> <span class="nc">BlazeClientBuilder</span><span class="o">[</span><span class="kt">F</span><span class="o">](</span><span class="n">global</span><span class="o">).</span><span class="n">stream</span>
+
+      <span class="n">httpApp</span> <span class="k">=</span> <span class="o">(</span>
+        <span class="nc">HttpRoutes</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">F</span><span class="o">]</span> <span class="c1">// We will add our own routes here later
+</span>      <span class="o">).</span><span class="n">orNotFound</span>
+
+      <span class="n">finalHttpApp</span> <span class="k">=</span> <span class="nc">Logger</span><span class="o">.</span><span class="n">httpApp</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="o">)(</span><span class="n">httpApp</span><span class="o">)</span>
+
+      <span class="n">exitCode</span> <span class="k">&lt;-</span> <span class="nc">BlazeServerBuilder</span><span class="o">[</span><span class="kt">F</span><span class="o">]</span>
+        <span class="o">.</span><span class="n">bindHttp</span><span class="o">(</span><span class="mi">8080</span><span class="o">,</span> <span class="s">"0.0.0.0"</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">withHttpApp</span><span class="o">(</span><span class="n">finalHttpApp</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">serve</span>
+    <span class="o">}</span> <span class="k">yield</span> <span class="n">exitCode</span>
+  <span class="o">}.</span><span class="n">drain</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now let’s see if we can still run the application:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> sbt run
+</code></pre></div></div>
+
+<p>The application should compile and we should see some output like this:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>scala-execution-context-global-92] INFO  o.h.s.b.BlazeServerBuilder - http4s v0.20.0 on blaze v0.14.0 started at http://[0:0:0:0:0:0:0:0]:8080/
+</code></pre></div></div>
+
+<p>Congratulations! We have a working http4s application. Right now it just sits
+there doing nothing, so let us create some endpoints!</p>
+
+<h2 id="api-specifications-and-the-guardrail-sbt-plugin">API specifications and the Guardrail sbt plugin</h2>
+
+<p>For this tutorial, we are going to recreate the Hello World endpoint that we
+deleted earlier. Save the following specification as 
+<code class="highlighter-rouge">src/main/resources/api.yaml</code>:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">openapi</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.0.0"</span>
+<span class="na">info</span><span class="pi">:</span>
+  <span class="na">title</span><span class="pi">:</span> <span class="s">http4s Guardrail example</span>
+  <span class="na">version</span><span class="pi">:</span> <span class="s">0.0.1</span>
+<span class="na">tags</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">hello</span>
+<span class="na">paths</span><span class="pi">:</span>
+  <span class="s">/hello</span><span class="pi">:</span>
+    <span class="na">get</span><span class="pi">:</span>
+      <span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">hello</span><span class="pi">]</span>
+      <span class="na">x-scala-package</span><span class="pi">:</span> <span class="s">hello</span>
+      <span class="na">operationId</span><span class="pi">:</span> <span class="s">getHello</span>
+      <span class="na">summary</span><span class="pi">:</span> <span class="s">Returns a hello message</span>
+      <span class="na">responses</span><span class="pi">:</span>
+        <span class="na">200</span><span class="pi">:</span>
+          <span class="na">description</span><span class="pi">:</span> <span class="s">Hello message</span>
+          <span class="na">content</span><span class="pi">:</span>
+            <span class="s">application/json</span><span class="pi">:</span>
+              <span class="na">schema</span><span class="pi">:</span>
+                <span class="s">$ref</span><span class="pi">:</span> <span class="s1">'</span><span class="s">#/components/schemas/HelloResponse'</span>
+<span class="na">components</span><span class="pi">:</span>
+  <span class="na">schemas</span><span class="pi">:</span>
+    <span class="na">HelloResponse</span><span class="pi">:</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s">object</span>
+      <span class="na">properties</span><span class="pi">:</span>
+        <span class="na">message</span><span class="pi">:</span>
+          <span class="na">type</span><span class="pi">:</span> <span class="s">string</span>
+      <span class="na">required</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">message</span>
+</code></pre></div></div>
+
+<p>Two things to notice in the specification are:</p>
+<ol>
+  <li>We must provide an <code class="highlighter-rouge">operationId</code> for our operation</li>
+  <li>It is good practice to provide an <code class="highlighter-rouge">x-scala-package</code> value to group related
+operations together.</li>
+</ol>
+
+<p>For the code generation, we are going to use the 
+<a href="https://github.com/twilio/sbt-guardrail">sbt-guardrail plugin</a>, to
+<code class="highlighter-rouge">project.plugins.sbt</code> add the following line:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">"com.twilio"</span> <span class="o">%</span> <span class="s">"sbt-guardrail"</span> <span class="o">%</span> <span class="s">"0.46.0"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>To <code class="highlighter-rouge">build.sbt</code>, append the following lines:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">guardrailTasks</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">:=</span> <span class="nc">List</span><span class="o">(</span>
+  <span class="nc">ScalaServer</span><span class="o">(</span>
+    <span class="n">specPath</span> <span class="k">=</span> <span class="o">(</span><span class="nc">Compile</span> <span class="o">/</span> <span class="n">resourceDirectory</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="s">"api.yaml"</span><span class="o">,</span>
+    <span class="n">pkg</span> <span class="k">=</span> <span class="s">"com.example.quickstart.endpoints"</span><span class="o">,</span>
+    <span class="n">framework</span> <span class="k">=</span> <span class="s">"http4s"</span><span class="o">,</span>
+    <span class="n">tracing</span> <span class="k">=</span> <span class="kc">false</span>
+  <span class="o">)</span>
+<span class="o">)</span>
+</code></pre></div></div>
+
+<p>And add the following dependency to the existing <code class="highlighter-rouge">libraryDependencies</code>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"io.circe"</span> <span class="o">%%</span> <span class="s">"circe-java8"</span> <span class="o">%</span> <span class="nc">CirceVersion</span><span class="o">,</span>
+</code></pre></div></div>
+
+<p>To see the code generator in action, run:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> sbt compile
+</code></pre></div></div>
+
+<p>And take a look in the
+<code class="highlighter-rouge">target/scala-2.12/src_managed/main/com/example/quickstart</code> directory, this is
+where our generated code lives, lets see what is there:</p>
+
+<p>The <code class="highlighter-rouge">definitions</code> directory contains the case classes that are used as request
+and response bodies and helper code for serialization and deserialization. For
+example, we defined a <code class="highlighter-rouge">HelloResponse</code> schema in the API specification we got a
+corresponding <code class="highlighter-rouge">HelloResponse.scala</code> file.</p>
+
+<p>The <code class="highlighter-rouge">hello</code> package got its name from the <code class="highlighter-rouge">x-scala-package</code> value.
+<code class="highlighter-rouge">hello/Routes.scala</code> contains a <code class="highlighter-rouge">trait</code> with methods that we must implement. The
+methods in this trait correspond the operations / <code class="highlighter-rouge">operationId</code>s in the API
+specification.</p>
+
+<p><code class="highlighter-rouge">Http4sImplicits.scala</code> and <code class="highlighter-rouge">Implicits.scala</code> contain, well, implicits. They are
+there to glue everything together.</p>
+
+<p>So far so good, now we must actually implement the endpoint we generated.</p>
+
+<h2 id="implementing-the-generated-endpoint">Implementing the generated endpoint</h2>
+
+<p>Create a new file at
+<code class="highlighter-rouge">src/main/scala/com/example/quickstart/endpoints/hello/HelloHandlerImpl.scala</code>
+with the following content:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">com.example.quickstart.endpoints.hello</span>
+
+<span class="k">import</span> <span class="nn">cats.Applicative</span>
+<span class="k">import</span> <span class="nn">cats.implicits._</span>
+<span class="k">import</span> <span class="nn">com.example.quickstart.endpoints.definitions.HelloResponse</span>
+
+<span class="k">class</span> <span class="nc">HelloHandlerImpl</span><span class="o">[</span><span class="kt">F</span><span class="o">[</span><span class="k">_</span><span class="o">]</span> <span class="kt">:</span> <span class="kt">Applicative</span><span class="o">]()</span> <span class="k">extends</span> <span class="nc">HelloHandler</span><span class="o">[</span><span class="kt">F</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">getHello</span><span class="o">(</span><span class="n">respond</span><span class="k">:</span> <span class="kt">GetHelloResponse.</span><span class="k">type</span><span class="o">)()</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">GetHelloResponse</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">{</span>
+      <span class="n">message</span> <span class="k">&lt;-</span> <span class="s">"Hello, world"</span><span class="o">.</span><span class="n">pure</span><span class="o">[</span><span class="kt">F</span><span class="o">]</span>
+    <span class="o">}</span> <span class="k">yield</span> <span class="n">respond</span><span class="o">.</span><span class="nc">Ok</span><span class="o">(</span><span class="nc">HelloResponse</span><span class="o">(</span><span class="n">message</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>What we’ve done here is implement the generated <code class="highlighter-rouge">HelloHandler</code>. Looking at the
+signature of the <code class="highlighter-rouge">getHello</code> method we can see Guardrail genius, everything is
+typed! If this still doesn’t click with you, try to rewrite the change the code
+to respond with something else than a <code class="highlighter-rouge">200 OK</code> and have it compile (hint, you
+can’t).</p>
+
+<p>Before we forget, lets add our hello routes to the application, open
+<code class="highlighter-rouge">src/main/scala/com/example/quickstart/QuickstartServer.scala</code> and replace it
+with:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">com.example.quickstart</span>
+
+<span class="k">import</span> <span class="nn">cats.effect.</span><span class="o">{</span><span class="nc">ConcurrentEffect</span><span class="o">,</span> <span class="nc">Effect</span><span class="o">,</span> <span class="nc">ExitCode</span><span class="o">,</span> <span class="nc">IO</span><span class="o">,</span> <span class="nc">IOApp</span><span class="o">,</span> <span class="nc">Timer</span><span class="o">,</span> <span class="nc">ContextShift</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">cats.implicits._</span>
+<span class="k">import</span> <span class="nn">com.example.quickstart.endpoints.hello.</span><span class="o">{</span><span class="nc">HelloHandlerImpl</span><span class="o">,</span> <span class="nc">HelloResource</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">fs2.Stream</span>
+<span class="k">import</span> <span class="nn">org.http4s.client.blaze.BlazeClientBuilder</span>
+<span class="k">import</span> <span class="nn">org.http4s.HttpRoutes</span>
+<span class="k">import</span> <span class="nn">org.http4s.implicits._</span>
+<span class="k">import</span> <span class="nn">org.http4s.server.blaze.BlazeServerBuilder</span>
+<span class="k">import</span> <span class="nn">org.http4s.server.middleware.Logger</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.global</span>
+
+<span class="k">object</span> <span class="nc">QuickstartServer</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="n">stream</span><span class="o">[</span><span class="kt">F</span><span class="o">[</span><span class="k">_</span><span class="o">]</span><span class="kt">:</span> <span class="kt">ConcurrentEffect</span><span class="o">](</span><span class="k">implicit</span> <span class="n">T</span><span class="k">:</span> <span class="kt">Timer</span><span class="o">[</span><span class="kt">F</span><span class="o">],</span> <span class="n">C</span><span class="k">:</span> <span class="kt">ContextShift</span><span class="o">[</span><span class="kt">F</span><span class="o">])</span><span class="k">:</span> <span class="kt">Stream</span><span class="o">[</span><span class="kt">F</span>, <span class="kt">Nothing</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">{</span>
+      <span class="n">client</span> <span class="k">&lt;-</span> <span class="nc">BlazeClientBuilder</span><span class="o">[</span><span class="kt">F</span><span class="o">](</span><span class="n">global</span><span class="o">).</span><span class="n">stream</span>
+
+      <span class="n">httpApp</span> <span class="k">=</span> <span class="o">(</span>
+        <span class="k">new</span> <span class="nc">HelloResource</span><span class="o">().</span><span class="n">routes</span><span class="o">(</span><span class="k">new</span> <span class="nc">HelloHandlerImpl</span><span class="o">())</span>
+      <span class="o">).</span><span class="n">orNotFound</span>
+
+      <span class="n">finalHttpApp</span> <span class="k">=</span> <span class="nc">Logger</span><span class="o">.</span><span class="n">httpApp</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="o">)(</span><span class="n">httpApp</span><span class="o">)</span>
+
+      <span class="n">exitCode</span> <span class="k">&lt;-</span> <span class="nc">BlazeServerBuilder</span><span class="o">[</span><span class="kt">F</span><span class="o">]</span>
+        <span class="o">.</span><span class="n">bindHttp</span><span class="o">(</span><span class="mi">8080</span><span class="o">,</span> <span class="s">"0.0.0.0"</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">withHttpApp</span><span class="o">(</span><span class="n">finalHttpApp</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">serve</span>
+    <span class="o">}</span> <span class="k">yield</span> <span class="n">exitCode</span>
+  <span class="o">}.</span><span class="n">drain</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>What changed is that we added the line
+<code class="highlighter-rouge">new HelloResource().routes(new HelloHandlerImpl())</code> to the <code class="highlighter-rouge">httpApp</code>.</p>
+
+<p>Now we can run the application again:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> sbt run
+</code></pre></div></div>
+
+<p>And once it’s running we can test our endpoint using <code class="highlighter-rouge">curl</code>:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> curl http://localhost:8080/hello
+<span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"Hello, world"</span><span class="o">}</span>%
+</code></pre></div></div>
+
+<p>🎉 Success! Everything is well in the world now. That is, until the API
+requirements change…</p>
+
+<h2 id="api-specification-changes">API specification changes</h2>
+
+<p>Guardrail makes changing the API specification a breeze. Earlier I said that we
+were recreating the standard hello world routes provided by the g8 http4s
+template. But we are missing something, namely, we want the <code class="highlighter-rouge">/hello</code> endpoint
+to respond with any given name. Let’s change the API specification at
+<code class="highlighter-rouge">src/main/resources/api.yaml</code> to</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">openapi</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.0.0"</span>
+<span class="na">info</span><span class="pi">:</span>
+  <span class="na">title</span><span class="pi">:</span> <span class="s">http4s Guardrail example</span>
+  <span class="na">version</span><span class="pi">:</span> <span class="s">0.0.1</span>
+<span class="na">tags</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">hello</span>
+<span class="na">paths</span><span class="pi">:</span>
+  <span class="s">/hello</span><span class="pi">:</span>
+    <span class="na">get</span><span class="pi">:</span>
+      <span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">hello</span><span class="pi">]</span>
+      <span class="na">x-scala-package</span><span class="pi">:</span> <span class="s">hello</span>
+      <span class="na">operationId</span><span class="pi">:</span> <span class="s">getHello</span>
+      <span class="na">summary</span><span class="pi">:</span> <span class="s">Returns a hello message</span>
+      <span class="na">parameters</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">$ref</span><span class="pi">:</span> <span class="s1">'</span><span class="s">#/components/parameters/NameParam'</span>
+      <span class="na">responses</span><span class="pi">:</span>
+        <span class="na">200</span><span class="pi">:</span>
+          <span class="na">description</span><span class="pi">:</span> <span class="s">Hello message</span>
+          <span class="na">content</span><span class="pi">:</span>
+            <span class="s">application/json</span><span class="pi">:</span>
+              <span class="na">schema</span><span class="pi">:</span>
+                <span class="s">$ref</span><span class="pi">:</span> <span class="s1">'</span><span class="s">#/components/schemas/HelloResponse'</span>
+<span class="na">components</span><span class="pi">:</span>
+  <span class="na">parameters</span><span class="pi">:</span>
+    <span class="na">NameParam</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">name</span>
+      <span class="na">in</span><span class="pi">:</span> <span class="s">query</span>
+      <span class="na">description</span><span class="pi">:</span> <span class="s">Name to greet</span>
+      <span class="na">schema</span><span class="pi">:</span>
+        <span class="na">type</span><span class="pi">:</span> <span class="s">string</span>
+  <span class="na">schemas</span><span class="pi">:</span>
+    <span class="na">HelloResponse</span><span class="pi">:</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s">object</span>
+      <span class="na">properties</span><span class="pi">:</span>
+        <span class="na">message</span><span class="pi">:</span>
+          <span class="na">type</span><span class="pi">:</span> <span class="s">string</span>
+      <span class="na">required</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">message</span>
+</code></pre></div></div>
+
+<p>What changed is that we added a parameter to the <code class="highlighter-rouge">/hello</code> endpoint.</p>
+
+<p>If we trigger the code generator again by calling:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> sbt compile
+</code></pre></div></div>
+
+<p>Guardrail will inform us that we are changing an existing file:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Warning:
+  The file ~/Developer/quickstart/target/scala-2.12/src_managed/main/com/example/quickstart/endpoints/hello/Routes.scala contained different content than was expected.
+
+  Existing file: <span class="o">)</span>: F[GetHelloResponse] <span class="o">}</span><span class="se">\n</span>class HelloResource[F[_]]
+  New file     : name: Option[String] <span class="o">=</span> None<span class="o">)</span>: F[GetHelloResponse]
+</code></pre></div></div>
+
+<p>Followed by a bunch of compiler errors. This is actually the compiler telling us
+that we need to change our implementation because it is out of sync with the
+generated code. Nice. Open
+<code class="highlighter-rouge">src/main/scala/com/example/quickstart/endpoints/HelloHandlerImpl.scala</code> and
+replace it with the following:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">com.example.quickstart.endpoints.hello</span>
+
+<span class="k">import</span> <span class="nn">cats.Applicative</span>
+<span class="k">import</span> <span class="nn">cats.implicits._</span>
+<span class="k">import</span> <span class="nn">com.example.quickstart.endpoints.definitions.HelloResponse</span>
+
+<span class="k">class</span> <span class="nc">HelloHandlerImpl</span><span class="o">[</span><span class="kt">F</span><span class="o">[</span><span class="k">_</span><span class="o">]</span> <span class="kt">:</span> <span class="kt">Applicative</span><span class="o">]()</span> <span class="k">extends</span> <span class="nc">HelloHandler</span><span class="o">[</span><span class="kt">F</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">getHello</span><span class="o">(</span><span class="n">respond</span><span class="k">:</span> <span class="kt">GetHelloResponse.</span><span class="k">type</span><span class="o">)(</span><span class="n">name</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">)</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">GetHelloResponse</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">{</span>
+      <span class="n">message</span> <span class="k">&lt;-</span> <span class="n">s</span><span class="s">"Hello, ${name.getOrElse("</span><span class="n">world</span><span class="s">")}"</span><span class="o">.</span><span class="n">pure</span><span class="o">[</span><span class="kt">F</span><span class="o">]</span>
+    <span class="o">}</span> <span class="k">yield</span> <span class="n">respond</span><span class="o">.</span><span class="nc">Ok</span><span class="o">(</span><span class="nc">HelloResponse</span><span class="o">(</span><span class="n">message</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now run the application again:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> sbt run
+</code></pre></div></div>
+
+<p>And once it is running we can try to get a personalized greeting:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> curl http://localhost:8080/hello<span class="se">\?</span>name<span class="se">\=</span>Kay
+<span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"Hello, Kay"</span><span class="o">}</span>%
+</code></pre></div></div>
+
+<p>And that is how easy it is to update your API specification!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In a few minutes we were able to create a simple REST API server with safely
+typed endpoints generated from an API specification. Better yet, we now have a 
+basis to build our application on. As we have seen Guardrail makes our lives
+easier by forcing us to stay true to our API specification.</p>
+
+<p>Guardrail is production ready IMO but can be rough around the edges sometimes.
+If you like Guardrail, they are looking for
+<a href="https://github.com/twilio/guardrail/blob/master/CONTRIBUTING.md">contributions</a>.</p>
+
+<p>You can find the finished project at
+<a href="https://github.com/kkreuning/guardrail-http4s-example">guardrail-http4s-tutorial</a>.</p>
+
+<p>Thank you for reading.</p>
+
+
+<ul class="taxonomy__index">
+  
+  
+    <li>
+      <a href="#2019">
+        <strong>2019</strong> <span class="taxonomy__count">2</span>
+      </a>
+    </li>
+  
+</ul>
+
+
+
+  <section id="2019" class="taxonomy__section">
+    <h2 class="archive__subtitle">2019</h2>
+    <div class="entries-list">
+      
+        
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/hello-world/" rel="permalink">Hello World
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  less than 1 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">This is my first post on my new blog. I will be writing about programming and
+technology mostly.
+</p>
+  </article>
+</div>
+
+      
+        
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/guardrail-with-http4s-tutorial/" rel="permalink">Guardrail with http4s tutorial
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">This article is an introduction on how to use Twilio’s
+Guardrail to safely generate and maintain a
+http4s REST API server. I wanted to write this article as
+...</p>
+  </article>
+</div>
+
+      
+    </div>
+    <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+  </section>
+
+
+  </div>
+</div>
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2019 Kay Kreuning. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
