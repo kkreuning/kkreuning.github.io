@@ -1,6 +1,7 @@
 ---
 layout: posts
 title: Guardrail with http4s tutorial
+tags: "scala guardrail http4s tutorial"
 ---
 
 This article is an introduction on how to use Twilio's
