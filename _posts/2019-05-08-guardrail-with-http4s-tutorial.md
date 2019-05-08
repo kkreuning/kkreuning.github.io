@@ -36,7 +36,7 @@ More important, when using Guardrail, we are forced to develop API first and our
 OpenAPI/Swagger specification functions as the single source of truth for our
 API's.
 
-Now, without further ado, let's build a http4s server using Guardrail
+Now, without further ado, let's build a http4s server using Guardrail!
 
 ## Prerequisites and setup
 
