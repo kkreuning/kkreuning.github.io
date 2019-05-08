@@ -1,6 +1,7 @@
 ---
 layout: posts
 title: Guardrail with http4s tutorial
+category: article
 tags: "scala guardrail http4s tutorial"
 ---
 
