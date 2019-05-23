@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Guardrail with http4s tutorial - kkreuning.github.io</title>
-<meta name="description" content="This article is an introduction on how to use Twilio’sGuardrail to safely generate and maintain ahttp4s REST API server. I wanted to write this article asa reference for my future self and others who are interested in this technology.">
+<meta name="description" content="This article is an introduction on how to use Twilio’s Guardrail to safely generate and maintain a http4s REST API server. I wanted to write this article asa reference for my future self and others who are interested in this technology.">
 
 
 
@@ -18,10 +18,10 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="kkreuning.github.io">
 <meta property="og:title" content="Guardrail with http4s tutorial">
-<meta property="og:url" content="https://kkreuning.github.io/article/guardrail-with-http4s-tutorial/">
+<meta property="og:url" content="http://localhost:4000/article/guardrail-with-http4s-tutorial/">
 
 
-  <meta property="og:description" content="This article is an introduction on how to use Twilio’sGuardrail to safely generate and maintain ahttp4s REST API server. I wanted to write this article asa reference for my future self and others who are interested in this technology.">
+  <meta property="og:description" content="This article is an introduction on how to use Twilio’s Guardrail to safely generate and maintain a http4s REST API server. I wanted to write this article asa reference for my future self and others who are interested in this technology.">
 
 
 
@@ -40,7 +40,7 @@
   
 
 
-<link rel="canonical" href="https://kkreuning.github.io/article/guardrail-with-http4s-tutorial/">
+<link rel="canonical" href="http://localhost:4000/article/guardrail-with-http4s-tutorial/">
 
 
 
@@ -53,7 +53,7 @@
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Kay Kreuning",
-      "url": "https://kkreuning.github.io",
+      "url": "http://localhost:4000",
       "sameAs": null
     }
   </script>
@@ -104,7 +104,7 @@
 
   </head>
 
-  <body class="layout--posts">
+  <body class="layout--single">
 
     <!--[if lt IE 9]>
 <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
@@ -257,12 +257,48 @@
   </div>
 
 
-  <div class="archive">
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Guardrail with http4s tutorial">
+    <meta itemprop="description" content="This article is an introduction on how to use Twilio’s Guardrail to safely generate and maintain a http4s REST API server. I wanted to write this article asa reference for my future self and others who are interested in this technology.">
+    <meta itemprop="datePublished" content="May 08, 2019">
     
-      <h1 id="page-title" class="page__title">Guardrail with http4s tutorial</h1>
-    
-    <p>This article is an introduction on how to use Twilio’s
-<a href="https://guardrail.dev">Guardrail</a> to safely generate and maintain a
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Guardrail with http4s tutorial
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Table of Contents</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#tldr----i-just-want-the-code">tl;dr -  I just want the code!</a></li>
+  <li><a href="#the-case-for-guardrail">The case for Guardrail</a></li>
+  <li><a href="#prerequisites-and-setup">Prerequisites and setup</a></li>
+  <li><a href="#api-specifications-and-the-guardrail-sbt-plugin">API specifications and the Guardrail sbt plugin</a></li>
+  <li><a href="#implementing-the-generated-endpoint">Implementing the generated endpoint</a></li>
+  <li><a href="#api-specification-changes">API specification changes</a></li>
+  <li><a href="#conclusion">Conclusion</a></li>
+</ul>
+            </nav>
+          </aside>
+        
+        <p>This article is an introduction on how to use Twilio’s 
+<a href="https://guardrail.dev">Guardrail</a> to safely generate and maintain a 
 <a href="https://http4s.org">http4s</a> REST API server. I wanted to write this article as
 a reference for my future self and others who are interested in this technology.</p>
 
@@ -270,7 +306,7 @@ a reference for my future self and others who are interested in this technology.
 
 <h2 id="tldr----i-just-want-the-code">tl;dr -  I just want the code!</h2>
 
-<p>Find the finished project at
+<p>Find the finished project at 
 <a href="https://github.com/kkreuning/guardrail-http4s-example">guardrail-http4s-tutorial</a></p>
 
 <h2 id="the-case-for-guardrail">The case for Guardrail</h2>
@@ -298,7 +334,7 @@ API’s.</p>
 
 <h2 id="prerequisites-and-setup">Prerequisites and setup</h2>
 
-<p>For this tutorial we will need
+<p>For this tutorial we will need 
 <a href="http://www.scala-sbt.org/1.0/docs/Setup.html">sbt</a>. To save some time we are
 going to use the http4s g8 template, in your terminal do the following:</p>
 
@@ -438,7 +474,7 @@ operations together.</li>
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> sbt compile
 </code></pre></div></div>
 
-<p>And take a look in the
+<p>And take a look in the 
 <code class="highlighter-rouge">target/scala-2.12/src_managed/main/com/example/quickstart</code> directory, this is
 where our generated code lives, lets see what is there:</p>
 
@@ -459,7 +495,7 @@ there to glue everything together.</p>
 
 <h2 id="implementing-the-generated-endpoint">Implementing the generated endpoint</h2>
 
-<p>Create a new file at
+<p>Create a new file at 
 <code class="highlighter-rouge">src/main/scala/com/example/quickstart/endpoints/hello/HelloHandlerImpl.scala</code>
 with the following content:</p>
 
@@ -484,7 +520,7 @@ typed! If this still doesn’t click with you, try to rewrite the change the cod
 to respond with something else than a <code class="highlighter-rouge">200 OK</code> and have it compile (hint, you
 can’t).</p>
 
-<p>Before we forget, lets add our hello routes to the application, open
+<p>Before we forget, lets add our hello routes to the application, open 
 <code class="highlighter-rouge">src/main/scala/com/example/quickstart/QuickstartServer.scala</code> and replace it
 with:</p>
 
@@ -522,7 +558,7 @@ with:</p>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p>What changed is that we added the line
+<p>What changed is that we added the line 
 <code class="highlighter-rouge">new HelloResource().routes(new HelloHandlerImpl())</code> to the <code class="highlighter-rouge">httpApp</code>.</p>
 
 <p>Now we can run the application again:</p>
@@ -544,7 +580,7 @@ requirements change…</p>
 <p>Guardrail makes changing the API specification a breeze. Earlier I said that we
 were recreating the standard hello world routes provided by the g8 http4s
 template. But we are missing something, namely, we want the <code class="highlighter-rouge">/hello</code> endpoint
-to respond with any given name. Let’s change the API specification at
+to respond with any given name. Let’s change the API specification at 
 <code class="highlighter-rouge">src/main/resources/api.yaml</code> to</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">openapi</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.0.0"</span>
@@ -605,7 +641,7 @@ to respond with any given name. Let’s change the API specification at
 
 <p>Followed by a bunch of compiler errors. This is actually the compiler telling us
 that we need to change our implementation because it is out of sync with the
-generated code. Nice. Open
+generated code. Nice. Open 
 <code class="highlighter-rouge">src/main/scala/com/example/quickstart/endpoints/HelloHandlerImpl.scala</code> and
 replace it with the following:</p>
 
@@ -645,67 +681,117 @@ basis to build our application on. As we have seen Guardrail makes our lives
 easier by forcing us to stay true to our API specification.</p>
 
 <p>Guardrail is production ready IMO but can be rough around the edges sometimes.
-If you like Guardrail, they are looking for
+If you like Guardrail, they are looking for 
 <a href="https://github.com/twilio/guardrail/blob/master/CONTRIBUTING.md">contributions</a>.</p>
 
-<p>You can find the finished project at
+<p>You can find the finished project at 
 <a href="https://github.com/kkreuning/guardrail-http4s-example">guardrail-http4s-tutorial</a>.</p>
 
 <p>Thank you for reading.</p>
 
-
-<ul class="taxonomy__index">
-  
-  
-    <li>
-      <a href="#2019">
-        <strong>2019</strong> <span class="taxonomy__count">2</span>
-      </a>
-    </li>
-  
-</ul>
-
-
-
-  <section id="2019" class="taxonomy__section">
-    <h2 class="archive__subtitle">2019</h2>
-    <div class="entries-list">
-      
         
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
 
 
+  
+  
+  
 
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
     
-    <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/article/guardrail-with-http4s-tutorial/" rel="permalink">Guardrail with http4s tutorial
-</a>
       
-    </h2>
+      <a href="/tags/#guardrail" class="page__taxonomy-item" rel="tag">guardrail</a><span class="sep">, </span>
     
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  6 minute read
-</p>
+      
+      
+      <a href="/tags/#http4s" class="page__taxonomy-item" rel="tag">http4s</a><span class="sep">, </span>
     
-    <p class="archive__item-excerpt" itemprop="description">This article is an introduction on how to use Twilio’s
-Guardrail to safely generate and maintain a
-http4s REST API server. I wanted to write this article as
-...</p>
+      
+      
+      <a href="/tags/#scala" class="page__taxonomy-item" rel="tag">scala</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#article" class="page__taxonomy-item" rel="tag">article</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2019-05-08T00:00:00+02:00">May 08, 2019</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Guardrail+with+http4s+tutorial%20http%3A%2F%2Flocalhost%3A4000%2Farticle%2Fguardrail-with-http4s-tutorial%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Farticle%2Fguardrail-with-http4s-tutorial%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Farticle%2Fguardrail-with-http4s-tutorial%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/hello-world/" class="pagination--pager" title="Hello World
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
   </article>
-</div>
 
-      
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
         
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title" itemprop="headline">
@@ -729,14 +815,13 @@ technology mostly.
   </article>
 </div>
 
-      
+        
+      </div>
     </div>
-    <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
-  </section>
-
-
-  </div>
+  
+  
 </div>
+
     </div>
 
     
@@ -781,21 +866,6 @@ technology mostly.
   <script src="/assets/js/main.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
 
-
-
-
-
-
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139886626-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-139886626-1', { 'anonymize_ip': false});
-</script>
 
 
 

@@ -1,12 +1,13 @@
 ---
-layout: posts
 title: Guardrail with http4s tutorial
 category: article
 tags: "scala guardrail http4s tutorial"
+toc: true
+toc_label: "Table of Contents"
 ---
 
-This article is an introduction on how to use Twilio's
-[Guardrail](https://guardrail.dev) to safely generate and maintain a
+This article is an introduction on how to use Twilio's 
+[Guardrail](https://guardrail.dev) to safely generate and maintain a 
 [http4s](https://http4s.org) REST API server. I wanted to write this article as
 a reference for my future self and others who are interested in this technology.
 
@@ -14,7 +15,7 @@ a reference for my future self and others who are interested in this technology.
 
 ## tl;dr -  I just want the code!
 
-Find the finished project at
+Find the finished project at 
 [guardrail-http4s-tutorial](https://github.com/kkreuning/guardrail-http4s-example)
 
 ## The case for Guardrail
@@ -40,7 +41,7 @@ Now, without further ado, let's build a http4s server using Guardrail!
 
 ## Prerequisites and setup
 
-For this tutorial we will need
+For this tutorial we will need 
 [sbt](http://www.scala-sbt.org/1.0/docs/Setup.html). To save some time we are
 going to use the http4s g8 template, in your terminal do the following:
 
@@ -185,7 +186,7 @@ To see the code generator in action, run:
 > sbt compile
 ```
 
-And take a look in the
+And take a look in the 
 `target/scala-2.12/src_managed/main/com/example/quickstart` directory, this is
 where our generated code lives, lets see what is there:
 
@@ -206,7 +207,7 @@ So far so good, now we must actually implement the endpoint we generated.
 
 ## Implementing the generated endpoint
 
-Create a new file at
+Create a new file at 
 `src/main/scala/com/example/quickstart/endpoints/hello/HelloHandlerImpl.scala`
 with the following content:
 
@@ -232,7 +233,7 @@ typed! If this still doesn't click with you, try to rewrite the change the code
 to respond with something else than a `200 OK` and have it compile (hint, you
 can't).
 
-Before we forget, lets add our hello routes to the application, open
+Before we forget, lets add our hello routes to the application, open 
 `src/main/scala/com/example/quickstart/QuickstartServer.scala` and replace it
 with:
 
@@ -271,7 +272,7 @@ object QuickstartServer {
 }
 ```
 
-What changed is that we added the line
+What changed is that we added the line 
 `new HelloResource().routes(new HelloHandlerImpl())` to the `httpApp`.
 
 Now we can run the application again:
@@ -295,7 +296,7 @@ requirements change...
 Guardrail makes changing the API specification a breeze. Earlier I said that we
 were recreating the standard hello world routes provided by the g8 http4s
 template. But we are missing something, namely, we want the `/hello` endpoint
-to respond with any given name. Let's change the API specification at
+to respond with any given name. Let's change the API specification at 
 `src/main/resources/api.yaml` to
 
 ```yaml
@@ -359,7 +360,7 @@ Warning:
 
 Followed by a bunch of compiler errors. This is actually the compiler telling us
 that we need to change our implementation because it is out of sync with the
-generated code. Nice. Open
+generated code. Nice. Open 
 `src/main/scala/com/example/quickstart/endpoints/HelloHandlerImpl.scala` and
 replace it with the following:
 
@@ -403,10 +404,10 @@ basis to build our application on. As we have seen Guardrail makes our lives
 easier by forcing us to stay true to our API specification.
 
 Guardrail is production ready IMO but can be rough around the edges sometimes.
-If you like Guardrail, they are looking for
+If you like Guardrail, they are looking for 
 [contributions](https://github.com/twilio/guardrail/blob/master/CONTRIBUTING.md).
 
-You can find the finished project at
+You can find the finished project at 
 [guardrail-http4s-tutorial](https://github.com/kkreuning/guardrail-http4s-example).
 
 Thank you for reading.
